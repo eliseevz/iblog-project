@@ -1,0 +1,62 @@
+.card {
+    padding: 15px;
+}
+
+.card a {
+    text-decoration: none!important;
+}
+
+.cardContent {
+    background: #fff;
+    border-radius: 15px;
+    min-height: 205px;
+    color: #000;
+    text-align: left;
+
+    padding: 20px;
+    padding-bottom: 60px;
+
+    position: relative;
+}
+
+.cardTitle {
+    font-size: 17px;
+    line-height: 1.5rem;
+    font-weight: bold;
+    /*height: 56px;*/
+
+    text-decoration: none;
+}
+
+.short {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.tags {
+    font-size: 14px;
+    color: #999999;
+}
+
+.date {
+    color: #999999;
+    font-size: 13px;
+}
+
+.bookmark {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.likes {
+    padding: 0!important;
+}
+
+.statsBar {
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    right: 15px;
+    justify-content: space-between;
+}
