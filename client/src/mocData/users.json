@@ -1,0 +1,18 @@
+[
+  {
+    "nickname": "eliseevz",
+    "email": "eliseev.vv01@gmail.com",
+    "password": "123456Q",
+    "articles": ["qwrqtfhq01", "owhqsfhq01"],
+    "favorites": ["owrqtgfq01"],
+    "_id": "rqsgd23w"
+  },
+  {
+    "nickname": "test",
+    "email": "test",
+    "password": "test",
+    "articles": ["owrqtgfq01"],
+    "favorites": [],
+    "_id": "rldoq99w"
+  }
+]
