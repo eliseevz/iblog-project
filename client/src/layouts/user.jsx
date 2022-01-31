@@ -3,7 +3,7 @@ import ArticlesList from "../components/arcticlesList";
 
 const User = ({user, isAuthor = false}) => {
 
-    const articlesByNew = user.articles ? user.articles.reverse() : null
+    const articlesByNew = user.articles ? [...user.articles].reverse() : null
 
     return (
         <div className="mt-4 container">
@@ -13,13 +13,12 @@ const User = ({user, isAuthor = false}) => {
                 </div>
             </div>
             {
-                user.articles
-                    ?<ArticlesList
-                        // inArticles={user.articles}
+                user.articles.length > 0
+                    ? <ArticlesList
                         inArticles={articlesByNew}
                         isAuthor={isAuthor}
                     />
-                    : <p>Статей пока нет</p>
+                    : <p className="mt-5">Статей пока нет</p>
             }
         </div>
     );

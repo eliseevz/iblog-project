@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import TextField from "../components/textField";
 import TextAreaField from "../components/textAreaField";
 import MultiSelectField from "../components/multiSelectField";
-import {useTags} from "../hooks/useTags";
 import {useHistory} from "react-router";
 import {confirmAlert} from "react-confirm-alert";
 import {useDispatch, useSelector} from "react-redux";
 import {addArticle, getCurrentUser, logout, removeArticle} from "../store/users";
 import {addNewArticle, getArticleById, removeArticleFromList, updateArticle} from "../store/articles";
+import {getTagsList} from "../store/tags";
 
 const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
 
@@ -23,7 +23,7 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
 
     const [data, setData] = useState(initialState)
 
-    const {tags} = useTags()
+    const tags = useSelector(getTagsList())
     const user = useSelector(getCurrentUser())
     const dispatch = useDispatch()
 
@@ -111,9 +111,13 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
             history.push(`/${userNickname}/article/${data._id}`)
         }
         if (type === "new") {
-            const result = await dispatch(addNewArticle({...data, tags: data.tags.map(tag => tag.value._id), content: correctContent}, userNickname))
-            console.log(result, ' this is result ')
-            dispatch(addArticle(userId, result._id))
+            const result = await dispatch(addNewArticle({
+                ...data,
+                tags: data.tags.map(tag => tag.value._id),
+                content: correctContent,
+                author: userNickname
+            }))
+            dispatch(addArticle(result.authorId, result._id))
             history.push(`/${userNickname}/article/${result._id}`)
         }
     }

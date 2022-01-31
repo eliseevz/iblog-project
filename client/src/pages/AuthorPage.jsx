@@ -27,7 +27,6 @@ const AuthorPage = () => {
 
     const localStorageUserId = getLocalId()
     const isAuthor = user?._id === localStorageUserId
-    console.log(isAuthor, ' is author')
 
     return (
         <div>

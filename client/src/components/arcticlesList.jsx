@@ -44,12 +44,13 @@ const ArticlesList = ({sortConfig = {}, inArticles, isAuthor}) => {
 
     const filterArticles = () => {
         let filtered = articles
+        const formatedDateArticles = articlesData.map(art => ({...art, date: new Date(art.date).getTime()}))
         if (!inArticles) {
             if (sortConfig.sort.value === "oldest") {
-                filtered = _.orderBy(articles, ["date"], ["asc"])
+                filtered = _.orderBy(formatedDateArticles, ["date"], ["asc"])
             }
             if (sortConfig.sort.value === "newest") {
-                filtered = _.orderBy(articles, ["date"], ["desc"])
+                filtered = _.orderBy(formatedDateArticles, ["date"], ["desc"])
             }
             if (sortConfig.tags.length !== 0) {
                 filtered = filtered.filter(article => {

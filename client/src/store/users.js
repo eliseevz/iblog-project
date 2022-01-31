@@ -39,7 +39,7 @@ const usersSlice = createSlice({
             state.entities = action.payload
         },
         usersLogin: (state, action) => {
-            state.auth = action.payload.localId
+            state.auth = action.payload.userId
         },
         usersAddNewUser: (state, action) => {
             state.entities = action.payload
@@ -83,20 +83,13 @@ export const getUserByNickname = (nickname) => (state) => {
 }
 
 export const addArticle = (userId, articleId) => async (dispatch, getState) => {
+    console.log(userId, articleId, ' in data addArticle')
     const state =  getState()
-    const user = state.users.entities.find(user => user._id === state.users.auth)
-    const data = {
-        ...user,
-        articles: user.articles ? [...user.articles, articleId] : [articleId]
-    }
-    console.log(data, ' update user data')
+    const user = state.users.entities.find(user => user._id === userId)
     try {
-        await usersService.update(userId, data)
-
-        // const newState = state.users.entities.filter(user => user._id !== userId)
-        // newState.push(data)
-        // dispatch(usersSetData(newState))
-        updateUserData(state, data, dispatch)
+        const {content} = await usersService.update(userId, {articles: [...user.articles, articleId]})
+        console.log(content)
+        updateUserData(state, content, dispatch)
     } catch (e) {
         console.log(e.message)
     }
@@ -110,10 +103,7 @@ export const removeArticle = (userId, articleId) => async (dispatch, getState) =
         articles: user.articles.filter(art => art !== articleId) || []
     }
     try {
-        await usersService.update(userId, data)
-        // const newState = state.users.entities.filter(user => user._id !== userId)
-        // newState.push(data)
-        // dispatch(usersSetData(newState))
+        await usersService.update(userId, {articles: data.articles})
         updateUserData(state, data, dispatch)
     } catch (e) {
         console.log(e.message)
@@ -124,13 +114,12 @@ export const addFavorite = (id) => async (dispatch, getState) => {
     const userId = getState().users.auth
     const state =  getState()
     const user = state.users.entities.find(user => user._id === state.users.auth)
-    const newUser = {
-        ...user,
+    const updatingUser = {
         favorites: user.favorites ? [...user.favorites, id] : [id]
     }
     try {
-        await usersService.update(userId, newUser)
-        updateUserData(state, newUser, dispatch)
+        const {content} = await usersService.update(userId, updatingUser)
+        updateUserData(state, content, dispatch)
     } catch (e) {
         console.log(e.message)
     }
@@ -140,23 +129,18 @@ export const removeFavorite = (id) => async (dispatch, getState) => {
     const userId = getState().users.auth
     const state =  getState()
     const user = state.users.entities.find(user => user._id === state.users.auth)
-    const newUser = {
-        ...user,
+    const updatingUser = {
         favorites: user.favorites.filter(fav => fav !== id)
     }
     try {
-        await usersService.update(userId, newUser)
-        // const newState = state.users.entities.filter(user => user._id !== userId)
-        // newState.push(newUser)
-        // dispatch(usersSetData(newState))
-        updateUserData(state, newUser, dispatch)
+        const {content} = await usersService.update(userId, updatingUser)
+        updateUserData(state, content, dispatch)
     } catch (e) {
         console.log(e.message)
     }
 }
 
 export const logIn = (data) => async (dispatch) => {
-    console.log('процесс логирования пошел')
     try {
         const response = await authService.login(data)
         dispatch(usersLogin(response))
@@ -171,20 +155,14 @@ export const logout = () => (dispatch) => {
     dispatch(userLogout())
 }
 
-export const register = ({email, password, ...rest}) => async (dispatch, getState) => {
+export const register = (payload) => async (dispatch, getState) => {
     try {
-        const response = await authService.register({email, password})
-        console.log(response, ' this is response')
-        const newUser = {
-            email,
-            ...rest,
-            _id: response.localId
-        }
-        const res = await usersService.create(newUser)
+        const userInfo = await authService.register(payload)
+        setTokens(userInfo)
         const state = getState().users.entities
-        dispatch(usersAddNewUser([...state, newUser]))
-        dispatch(logIn({email, password}))
-        return newUser
+        dispatch(usersAddNewUser([...state, userInfo.user]))
+        dispatch(usersLogin(userInfo))
+        return userInfo.user
     } catch (e) {
         console.log(e.message)
     }

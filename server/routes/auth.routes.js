@@ -55,7 +55,8 @@ router.post("/signUp", [
 
             res.status(201).send({
                 ...tokens,
-                userId: newUser._id
+                userId: newUser._id,
+                user: newUser
             })
 
         } catch (e) {

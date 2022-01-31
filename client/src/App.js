@@ -15,20 +15,11 @@ import AdminPage from "./components/Admin/adminPage";
 import {AdminProvider} from "./hooks/useAdmin";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {ArticleProvider} from "./hooks/useArticles";
 import Footer from "./components/Footer/footer";
 import {ThemeProvider} from "./hooks/useTheme";
 import MainLayout from "./layouts/MainLayout";
-import {AuthProvider} from "./hooks/useAuth";
-import {useDispatch} from "react-redux";
 
 function App() {
-
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-
-    }, [])
 
     const routing = (
         <Switch>
@@ -47,18 +38,14 @@ function App() {
       <BrowserRouter>
         <div className="App">
             <ThemeProvider>
-                <AuthProvider>
-                    <TagsProvider>
-                        <AdminProvider>
-                            <Navbar />
-                                <MainLayout>
-                                    {routing}
-                                </MainLayout>
-                            <ToastContainer />
-                            <Footer/>
-                        </AdminProvider>
-                    </TagsProvider>
-                </AuthProvider>
+                <AdminProvider>
+                    <Navbar />
+                        <MainLayout>
+                            {routing}
+                        </MainLayout>
+                    <ToastContainer />
+                    <Footer/>
+                </AdminProvider>
             </ThemeProvider>
         </div>
       </BrowserRouter>

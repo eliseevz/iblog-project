@@ -12,7 +12,8 @@ const schema = new Schema({
     },
     articles: [{
         type: String
-    }]
+    }],
+    favorites: [String]
 }, {
     timestamps: true
 })

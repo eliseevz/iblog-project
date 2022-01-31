@@ -39,10 +39,17 @@ export const loadTagsList = () => async (dispatch) => {
     }
 }
 
+export const getTagById = (id) => (dispatch, getState) => {
+    return getState().tags.entities.find(tag => tag._id === id)
+}
+
 export const getTagsLoadingStatus = () => state =>
     state.tags.isLoading
 
 export const getTagsDataStatus = () => state =>
     state.tags.dataLoaded
+
+export const getTagsList = () => state =>
+    state.tags.entities
 
 export default tagsReducer

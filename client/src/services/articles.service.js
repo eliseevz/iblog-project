@@ -6,13 +6,13 @@ const articlesService = {
         const {data} = await httpService.get(articlesEndPoint)
         return data
     },
-    update: async (id, data) => {
-      const result = await httpService.put(articlesEndPoint+id, data)
-        return result
+    update: async (id, payload) => {
+      const {data} = await httpService.patch(articlesEndPoint+id, payload)
+        return data
     },
-    add: async (data) => {
-        const result = await httpService.put(articlesEndPoint + data._id, data)
-        return result
+    add: async (payload) => {
+        const {data} = await httpService.post(articlesEndPoint, payload)
+        return data
     },
     delete: async (id) => {
         const res = await httpService.delete(articlesEndPoint + id)

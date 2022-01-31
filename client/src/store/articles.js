@@ -48,34 +48,29 @@ export const loadArticlesList = () => async (dispatch) => {
     }
 }
 
-export const updateArticle = (id, data) => async (dispatch, getState) => {
+export const updateArticle = (id, payload) => async (dispatch, getState) => {
     const state = getState()
     try {
-        const result = await articlesService.update(id, data)
-        const newArticles = state.articles.entities.filter(a => a._id !== data._id)
-        newArticles.push(data)
+        const {content} = await articlesService.update(id, payload)
+        const newArticles = state.articles.entities.filter(a => a._id !== content._id)
+        newArticles.push(content)
         dispatch(updateArticles(newArticles))
-        return data
+        return content
     } catch (e) {
         console.log(e.message)
     }
 }
 
-export const addNewArticle = (data, author) => async (dispatch, getState) => {
+export const addNewArticle = (payload) => async (dispatch, getState) => {
     const state = getState()
-    const newArt = {
-        ...data,
-        _id: generateId(10),
-        author: author,
-        date: new Date().getTime()
-    }
-    const newArticles = [...state.articles.entities, newArt]
     try {
-        await articlesService.add(newArt)
+        const {content} = await articlesService.add(payload)
+        console.log(content, " respone add article")
+        const newArticles = [...state.articles.entities, content]
         dispatch(updateArticles(newArticles))
-        return newArt
+        return content
     } catch (e) {
-        console.log('хуйня ', e.message)
+        console.log(e.message)
     }
 }
 

@@ -48,6 +48,33 @@ body {
   color: #61dafb;
 }
 
+.commentForm {
+  resize: none;
+  width: 500px;
+  height: 70px;
+  background-color: #3e4f5e;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.commentForm:focus {
+  outline: none;
+}
+
+.commentElement {
+  background: #4b5c69;
+  color: #fff;
+  position: relative;
+}
+
+.deleteCommentButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

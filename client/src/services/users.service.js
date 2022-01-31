@@ -8,11 +8,10 @@ const usersService = {
     },
     getById: async (id) => {
         const data = await httpService.get(usersEndPoint + id)
-        console.log(data, ' data from httpservice')
         return data
     },
-    update: async (id, data) => {
-        const result = await httpService.put(usersEndPoint + id, data)
+    update: async (id, payload) => {
+        const {data} = await httpService.patch(usersEndPoint + id, payload)
         return data
     },
     create: async (data) => {

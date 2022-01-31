@@ -7,11 +7,11 @@ import {useTags} from "../../hooks/useTags";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorite, getCurrentUser, removeFavorite} from "../../store/users";
+import {getTagById} from "../../store/tags";
 
 const ArticleShort = ({title, short, date, tags, id, author, isAuthor}) => {
 
     const history = useHistory()
-    const {getTagById} = useTags()
 
     const dispatch = useDispatch()
     const user = useSelector(getCurrentUser())
@@ -50,7 +50,7 @@ const ArticleShort = ({title, short, date, tags, id, author, isAuthor}) => {
                         <div className="tags me-3">
                             {
                                 tags.map(tag => {
-                                    const tagData = getTagById(tag)
+                                    const tagData = dispatch(getTagById(tag))
                                     return (<span key={tagData?.value?._id} className={`${classes.tags} me-3`}>{tagData?.label}</span>)
                                 })
                             }

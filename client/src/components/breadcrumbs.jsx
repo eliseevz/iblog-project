@@ -16,7 +16,6 @@ const Breadcrumbs = ({match, lastName}) => {
     const dojeNames = {
         'article': 'Статьи',
     }
-    console.log(lastName, ' lastName')
 
     const getBreadcrumbs = () => {
         const splited = match.url.split("/").slice(1, -1)
@@ -29,7 +28,6 @@ const Breadcrumbs = ({match, lastName}) => {
             link = link + item + "/"
             return returned
         })
-        console.log(newBred)
         return newBred
     }
 

@@ -66,6 +66,7 @@ const RegisterForm = () => {
         e.preventDefault()
         e.stopPropagation()
         const newUser = await dispatch(register(data))
+        console.log(newUser, ' new user in reg form')
         history.push(`/${newUser.nickname}`)
     }
 

@@ -5,24 +5,20 @@ import apiTags from "../../api/tags"
 import SelectField from "../selectField";
 import MultiSelectField from "../multiSelectField";
 import TextField from "../textField";
+import {useSelector} from "react-redux";
+import {getTagsList} from "../../store/tags";
 
 const FilterBar = ({sort, setSort}) => {
 
-    const {fetchAll} = apiTags
-    const [tags, setTags] = useState()
+
+
+    const tagsData = useSelector(getTagsList())
+    const tags = tagsData.map(tag => ({value: tag, label: tag.name}))
 
     const sortOptions = [
         {value: "oldest", label: "Старые"},
         {value: "newest", label: "Новые"}
     ]
-
-    useEffect(() => {
-        fetchAll()
-            .then(data => {
-                const newTags = data.map(tag => ({value: tag, label: tag.name}))
-                setTags(newTags)
-            })
-    }, [])
 
     const handleChange = (target) => {
         console.log(target, ' this is target')
