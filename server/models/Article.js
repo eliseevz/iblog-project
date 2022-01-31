@@ -4,6 +4,7 @@ const schema = new Schema({
     author: {
         type: String,
     },
+    authorId: String,
     content: [{
         type: String
     }],
