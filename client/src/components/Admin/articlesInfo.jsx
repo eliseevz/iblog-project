@@ -17,7 +17,7 @@ const ArticlesInfo = ({articlesData}) => {
     const [page, setPage] = useState(1)
     const dispatch = useDispatch()
 
-    const pageSize = 1
+    const pageSize = 8
 
 
     const handleChange = (target) => {

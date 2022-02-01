@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import TextField from "./textField";
 import {useHistory} from "react-router-dom"
 import {validator} from "../utils/validator";
-import {useDispatch} from "react-redux";
-import {logIn} from "../store/users";
+import {useDispatch, useSelector} from "react-redux";
+import {getUserErrorBySel, logIn} from "../store/users";
 
 const LoginForm = () => {
     const initialState = {
@@ -34,6 +34,14 @@ const LoginForm = () => {
         }
     }
 
+    const userError = useSelector(getUserErrorBySel())
+
+    useEffect(() => {
+        if (userError) {
+            setError(prevState => ({...prevState, [userError.name]: userError.message}))
+        }
+    }, [userError])
+
     const [data, setData] = useState(initialState)
     const [error, setError] = useState({})
     const history = useHistory()
@@ -51,12 +59,11 @@ const LoginForm = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        try {
-            dispatch(logIn(data))
-            history.push("/")
-        } catch (e) {
-            setError(e)
+        const currentUser = await dispatch(logIn(data))
+        if (currentUser?.response?.status === 400) {
+            return
         }
+        history.push("/")
     }
 
     return (

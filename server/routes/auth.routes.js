@@ -28,22 +28,26 @@ router.post("/signUp", [
                     }
                 })
             }
-            const {email, password} = req.body
-            const existingUser = await User.findOne({email})
-            if (existingUser) {
-                return res.status(400).json({
-                    error: {
-                        message: "EMAIL_EXISTS",
-                        code: 400,
-                    }
-                })
+            const {email, password, nickname} = req.body
+            const existingUserEmail = await User.findOne({email})
+            if (existingUserEmail) {
+                return res.status(400).send({"message" : "Email уже занят", "name":"email"})
             }
+
+            const existingUserNickname = await User.findOne({nickname})
+            if (existingUserNickname) {
+                console.log('its exist')
+                res.status(400).send({"message" : "Никнейм уже занят", "name":"nickname"})
+                return
+            }
+
             const hashedPassword = await bcrypt.hash(password, 12)
 
             const newUser = await User.create({
                 ...req.body,
                 articles: [],
-                password: hashedPassword
+                password: hashedPassword,
+                isAdmin: false
             })
 
 
@@ -93,22 +97,12 @@ router.post("/signInWithPassword", [
             const {email, password} = req.body
             const existingUser = await User.findOne({email})
             if (!existingUser) {
-                return res.status(400).send({
-                    error: {
-                        message: "EMAIL_NOT_FOUND",
-                        code: 400
-                    }
-                })
+                return res.status(400).send({message : "Email не зарегистрирован", name:"email", code: 400})
             }
 
             const isPasswordEqual = await bcrypt.compare(password, existingUser.password)
             if (!isPasswordEqual) {
-                return res.status(400).send({
-                    error: {
-                        message: "INVALID_PASSWORD",
-                        code: 400
-                    }
-                })
+                return res.status(400).send({message : "Неверный пароль", name:"password", code: 400})
             }
 
             const tokens = tokenService.generate({

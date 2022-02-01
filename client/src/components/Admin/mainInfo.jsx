@@ -4,8 +4,6 @@ import GraphArticles from "./graphOfArticles";
 
 const MainInfo = ({usersData, articlesData}) => {
 
-
-
     return (
         <div>
              <ul className='list-unstyled card text-dark p-3'>

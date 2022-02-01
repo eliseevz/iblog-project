@@ -23,7 +23,8 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
 
     const [data, setData] = useState(initialState)
 
-    const tags = useSelector(getTagsList())
+    const tags = useSelector(getTagsList()).map(tag => ({label: tag.name, value: tag}))
+    console.log(tags, ' tags')
     const user = useSelector(getCurrentUser())
     const dispatch = useDispatch()
 
@@ -36,7 +37,6 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
 
     useEffect(async () => {
         if (type === 'edit') {
-            // const data = await getArticleById(articleId)
             console.log(article, ' hello data')
             setData({
                 ...article,

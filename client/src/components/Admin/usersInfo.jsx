@@ -14,7 +14,7 @@ const UsersInfo = ({usersData}) => {
     })
     const [page, setPage] = useState(1)
 
-    const pageSize = 1
+    const pageSize = 8
 
     const history = useHistory()
 

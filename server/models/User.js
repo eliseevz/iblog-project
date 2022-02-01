@@ -13,7 +13,8 @@ const schema = new Schema({
     articles: [{
         type: String
     }],
-    favorites: [String]
+    favorites: [String],
+    isAdmin: Boolean
 }, {
     timestamps: true
 })

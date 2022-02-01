@@ -1,20 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import TextField from "./textField";
 import {validator} from "../utils/validator";
-import {useDispatch} from "react-redux";
-import {register} from "../store/users";
+import {useDispatch, useSelector} from "react-redux";
+import {getUserError, getUserErrorBySel, register} from "../store/users";
 import {useHistory} from "react-router";
 
 const RegisterForm = () => {
 
     const history = useHistory()
 
+    const userError = useSelector(getUserErrorBySel())
+
+    useEffect(() => {
+        if (userError) {
+            setError(prevState => ({...prevState, [userError.name]: userError.message}))
+        }
+    }, [userError])
+
     const initialState = {
         email: "",
         nickname: "",
         password: "",
     }
-
 
     const validationConfig = {
         email: {
@@ -66,7 +73,10 @@ const RegisterForm = () => {
         e.preventDefault()
         e.stopPropagation()
         const newUser = await dispatch(register(data))
-        console.log(newUser, ' new user in reg form')
+        console.log(newUser.response)
+        if (newUser?.response?.status === 400) {
+            return
+        }
         history.push(`/${newUser.nickname}`)
     }
 
@@ -94,7 +104,6 @@ const RegisterForm = () => {
                 label="Никнейм"
                 error={error.nickname}
             />
-
             <button type="submit" className="btn btn-primary mt-3">Зарегистрироваться</button>
         </form>
     );

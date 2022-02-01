@@ -27,18 +27,26 @@ const GraphArticles = ({articles}) => {
 
         const resultLabels = []
         const resultCount = []
-        for(let i = nowDate; i > nowDate - 6; i--) {
+        for(let i = nowDate; i >= nowDate - 6; i--) {
             let index = i
-            if (i >= 12) {
-                index = i - 12
+            // if (i >= 12) {
+            //     index = i - 12
+            // }
+            if (i < 0) {
+                index = i + 12
             }
             resultLabels.push(months[index])
             const articlesCount = articles.filter((article) => {
-                console.log(new Date(+article.date).getMonth(), ' DATE')
-                return new Date(+article.date).getMonth() === i
+                console.log(article)
+                console.log(new Date(article.date).getMonth(), ' DATE')
+                console.log(index)
+                return new Date(article.date).getMonth() === index
             })
+            console.log("______________")
             resultCount.push(articlesCount.length)
         }
+
+        console.log(resultLabels, " resultLabels")
 
         setConfig(prevState => ({data: resultCount.reverse(), labels: resultLabels.reverse(), isReady: true}))
 

@@ -83,7 +83,6 @@ export const getUserByNickname = (nickname) => (state) => {
 }
 
 export const addArticle = (userId, articleId) => async (dispatch, getState) => {
-    console.log(userId, articleId, ' in data addArticle')
     const state =  getState()
     const user = state.users.entities.find(user => user._id === userId)
     try {
@@ -146,7 +145,8 @@ export const logIn = (data) => async (dispatch) => {
         dispatch(usersLogin(response))
         setTokens(response)
     } catch (e) {
-        console.log(e.message)
+        dispatch(usersRequestFailed(e.response.data))
+        return e
     }
 }
 
@@ -164,7 +164,8 @@ export const register = (payload) => async (dispatch, getState) => {
         dispatch(usersLogin(userInfo))
         return userInfo.user
     } catch (e) {
-        console.log(e.message)
+        dispatch(usersRequestFailed(e.response.data))
+        return e
     }
 }
 
@@ -190,6 +191,14 @@ export const getAuthData = () => state =>
 export const getCurrentUser = () => (state) => {
     const user = state.users.entities.find(user => user._id === state.users.auth)
     return user
+}
+
+export const getUserError = () => (dispatch, getState) => {
+    return getState().users.error
+}
+
+export const getUserErrorBySel = () => (state) => {
+    return state.users.error
 }
 
 
