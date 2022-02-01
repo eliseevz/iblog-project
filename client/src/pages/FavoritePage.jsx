@@ -1,5 +1,4 @@
 import React from 'react';
-import {useUser} from "../hooks/useUser";
 import ArticlesList from "../components/arcticlesList";
 import {useHistory} from "react-router";
 import {getCurrentUser} from "../store/users";

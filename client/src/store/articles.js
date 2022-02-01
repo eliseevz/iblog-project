@@ -1,6 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
 import articlesService from "../services/articles.service";
-import {generateId} from "../utils/generateId";
 
 
 const articlesSlice = createSlice({
@@ -65,7 +64,6 @@ export const addNewArticle = (payload) => async (dispatch, getState) => {
     const state = getState()
     try {
         const {content} = await articlesService.add(payload)
-        console.log(content, " respone add article")
         const newArticles = [...state.articles.entities, content]
         dispatch(updateArticles(newArticles))
         return content
@@ -78,7 +76,6 @@ export const removeArticleFromList = (id) => async (dispatch, getState) => {
     const state = getState().articles.entities
     const newState = state.filter(a => a._id !== id)
     try {
-        console.log("запрос на удаление")
         await articlesService.delete(id)
     } catch (e) {
         console.log(e)

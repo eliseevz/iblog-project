@@ -5,7 +5,7 @@ import MultiSelectField from "../components/multiSelectField";
 import {useHistory} from "react-router";
 import {confirmAlert} from "react-confirm-alert";
 import {useDispatch, useSelector} from "react-redux";
-import {addArticle, getCurrentUser, logout, removeArticle} from "../store/users";
+import {addArticle, getCurrentUser, removeArticle} from "../store/users";
 import {addNewArticle, getArticleById, removeArticleFromList, updateArticle} from "../store/articles";
 import {getTagsList} from "../store/tags";
 import {parseArticleContent} from "../utils/parseArticleContent";
@@ -64,9 +64,8 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
         setData(prevState => ({...prevState, [data.name]: data.value}))
     }
 
-    useEffect(async () => {
+    useEffect( () => {
         if (type === 'edit') {
-            console.log(article, ' hello data')
             setData({
                 ...article,
                 title: article.title,
@@ -88,7 +87,6 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
                     tagsIndex.push(index)
                 }
             })
-            console.log(tagsIndex)
             return tagsIndex
         }
         return null
@@ -143,7 +141,6 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
             correctTags = data.tags.map(tag => tag.value._id)
         }
         if (type === "edit") {
-            console.log("edit")
             const result = dispatch(updateArticle(data._id, {...data, tags: correctTags, content: correctContent}))
             history.push(`/${userNickname}/article/${data._id}`)
         }
@@ -160,7 +157,6 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
     }
 
     function transformArticleContent(content) {
-        console.log(content)
         const splitedContent = content.trim().split("\n")
         const newContent = []
         for (let i = 0; i < splitedContent.length; i++) {

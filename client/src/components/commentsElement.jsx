@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from "moment";
 import {useHistory} from "react-router";
 import {getDateFrom} from "../utils/getDateFrom";
 import {useDispatch, useSelector} from "react-redux";

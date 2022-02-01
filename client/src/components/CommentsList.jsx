@@ -9,7 +9,6 @@ const CommentsList = () => {
     const comments = useSelector(getCommentsList())
     const commentsDataStatus = useSelector(getCommentsDataStatus())
 
-    console.log(comments, ' this is comments')
 
     const sortedComments = comments
         ? _.orderBy(comments, ["date"], ["desc"])

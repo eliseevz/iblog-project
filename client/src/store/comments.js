@@ -1,7 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
 import commentsService from "../services/comments.service";
-import {generateId} from "../utils/generateId";
-import httpService from "../services/http.service";
 
 const commentsSlice = createSlice({
     name: "comments",

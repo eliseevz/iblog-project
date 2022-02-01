@@ -3,11 +3,10 @@ import TextField from "../textField";
 import {confirmAlert} from "react-confirm-alert";
 import Pagination from "../pagination";
 import paginate from "../../utils/paginate";
-import {useDispatch, useSelector} from "react-redux";
-import {getUserByNickname, getUserByNicknameDisp, removeArticle} from "../../store/users";
+import {useDispatch} from "react-redux";
+import {getUserByNicknameDisp, removeArticle} from "../../store/users";
 import {removeArticleFromList} from "../../store/articles";
-import {getCommentsList, loadCommentsList} from "../../store/comments";
-import likes from "../../api/likes";
+import {removeComment} from "../../store/comments";
 import commentsService from "../../services/comments.service";
 
 const ArticlesInfo = ({articlesData}) => {
@@ -30,16 +29,15 @@ const ArticlesInfo = ({articlesData}) => {
     }
 
     const deleteArticleAndRefreshData = async (id, author) => {
-        console.log('началось удаление')
-        console.log(author)
         setData(prevState => prevState.filter(art => art._id !== id))
         const user = dispatch(getUserByNicknameDisp(author))
-        console.log(user, ' this is user fetched by id')
         dispatch(removeArticle(user._id, id))
-        console.log('удалилась статья из юзера')
-        console.log('начинаем удалять')
-        const result = dispatch(removeArticleFromList(id))
-        console.log('Удаляю из юзера')
+        dispatch(removeArticleFromList(id))
+    }
+
+    const deleteArticle = (id) => {
+        dispatch(removeComment(id))
+        setCommentList(prevState => prevState.filter(comm => comm._id !== id))
     }
 
     const toggleComments = (id) => {
@@ -55,13 +53,17 @@ const ArticlesInfo = ({articlesData}) => {
     }
 
     useEffect(async () => {
-        if (comments) {
-            const {content} = await commentsService.getComments(comments)
-            console.log(content, ' fetched')
-            setCommentList(content)
-            return
+        try {
+            if (comments) {
+                const {content} = await commentsService.getComments(comments)
+                setCommentList(content)
+                return
+            }
+            setCommentList(false)
+        } catch (e) {
+            console.log(e)
         }
-        setCommentList(false)
+
     }, [comments])
 
     const handleDelete = (id, author) => {
@@ -72,6 +74,24 @@ const ArticlesInfo = ({articlesData}) => {
                 {
                     label: 'Удалить',
                     onClick: () => deleteArticleAndRefreshData(id, author)
+                },
+                {
+                    label: 'Отмена',
+                    onClick: () => {}
+                }
+            ]
+        });
+
+    }
+
+    const handleDeleteComment = (id) => {
+        confirmAlert({
+            title: `Внимание!`,
+            message: `Действительно хотите комментарий?`,
+            buttons: [
+                {
+                    label: 'Удалить',
+                    onClick: () => deleteArticle(id)
                 },
                 {
                     label: 'Отмена',
@@ -126,16 +146,23 @@ const ArticlesInfo = ({articlesData}) => {
                                                 ? <ul className="list-group list-group-flush">
                                                     {
                                                         commentList.map(item => {
-                                                            return <li className="list-group-item bg-light d-flex text-muted">
-                                                                    <strong
-                                                                        role="button"
-                                                                        onClick={() => {
-                                                                        const win = window.open(`/${article.author}`, "_blank");
-                                                                        win.focus();
-                                                                    }} className="me-2">
-                                                                        {item.author}:
-                                                                    </strong>
-                                                                    {item.content}
+                                                            return <li className="list-group-item bg-light d-flex justify-content-between align-items-center text-muted">
+                                                                    <div>
+                                                                        <strong
+                                                                            role="button"
+                                                                            onClick={() => {
+                                                                                const win = window.open(`/${article.author}`, "_blank");
+                                                                                win.focus();
+                                                                            }}
+                                                                            className="me-2"
+                                                                        >
+                                                                            {item.author}:
+                                                                        </strong>
+                                                                        {item.content}
+                                                                    </div>
+                                                                    <button onClick={() => handleDeleteComment(item._id)} className="btn">
+                                                                        <i className="bi bi-x text-danger fs-5"></i>
+                                                                    </button>
                                                                 </li>
                                                         })
                                                     }

@@ -6,7 +6,6 @@ const LOCAL_ID = "localId"
 
 
 export const setTokens = ({userId, refreshToken, accessToken, expiresIn=3600}) => {
-    console.log({userId, refreshToken, accessToken, expiresIn}, ' tokens')
     const expiresDate = new Date().getTime() + expiresIn * 1000
     localStorage.setItem(TOKEN_KEY, accessToken)
     localStorage.setItem(REFRESH_KEY, refreshToken)

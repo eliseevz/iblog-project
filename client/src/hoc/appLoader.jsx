@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {getUsersDataStatus, loadUsersList} from "../store/users";
 import {getArticlesDataStatus, loadArticlesList} from "../store/articles";
 import {getTagsDataStatus, loadTagsList} from "../store/tags";
-import {getLocalId} from "../services/localStorage.service";
 
 const AppLoader = ({children}) => {
 

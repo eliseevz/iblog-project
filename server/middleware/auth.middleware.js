@@ -15,7 +15,6 @@ module.exports = async (req, res, next) => {
 
         const data = tokenService.validateAccess(token)
         const findUser = await User.findById(data._id)
-        console.log(findUser, ' user')
 
         req.user = {
             ...data,

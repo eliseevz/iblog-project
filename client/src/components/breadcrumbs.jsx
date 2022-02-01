@@ -1,18 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router"
+import React from 'react';
 import {Link} from "react-router-dom";
 import {useTheme} from "../hooks/useTheme";
 
 const Breadcrumbs = ({match, lastName}) => {
 
-    const styles = {
-        'color:': "#fff",
-    }
-
     const {mode} = useTheme()
 
-    const [link, setLink] = useState("/")
-    const [splited, setSplited] = useState(match.url.split("/").slice(1, -1))
     const dojeNames = {
         'article': 'Статьи',
     }

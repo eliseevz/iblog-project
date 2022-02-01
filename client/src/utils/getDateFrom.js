@@ -47,12 +47,3 @@ export function getDateFrom(timeIn) {
         }
     }
 }
-
-
-function helloLiza() {
-
-}
-
-const helloLiza2 = params => {
-
-}

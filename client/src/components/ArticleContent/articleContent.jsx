@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classes from "./articleContent.module.css"
 import moment from "moment";
 import {useDispatch} from "react-redux";
 import {getTagById} from "../../store/tags";
-import {parseArticleContent} from "../../utils/parseArticleContent";
 
 const ArticleContent = ({article}) => {
 

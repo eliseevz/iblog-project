@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {useHistory} from "react-router";
-import { confirmAlert } from 'react-confirm-alert'; // Import
+import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import TextField from "../textField";
 import {Link} from "react-router-dom";
 import paginate from "../../utils/paginate";
-import Pagination from "../pagination"; // Import css
+import Pagination from "../pagination";
 
 const UsersInfo = ({usersData}) => {
 
@@ -16,7 +15,6 @@ const UsersInfo = ({usersData}) => {
 
     const pageSize = 8
 
-    const history = useHistory()
 
     const handleChange = (target) => {
         setSearch({search: target.value})

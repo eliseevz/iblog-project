@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import TextField from "./textField";
 import {validator} from "../utils/validator";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserError, getUserErrorBySel, register} from "../store/users";
+import {getUserErrorBySel, register} from "../store/users";
 import {useHistory} from "react-router";
 
 const RegisterForm = () => {
@@ -73,7 +73,6 @@ const RegisterForm = () => {
         e.preventDefault()
         e.stopPropagation()
         const newUser = await dispatch(register(data))
-        console.log(newUser.response)
         if (newUser?.response?.status === 400) {
             return
         }

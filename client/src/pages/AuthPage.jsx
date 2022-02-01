@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import RegisterForm from "../components/registerForm";
 import LoginForm from "../components/loginForm";
 import {useHistory} from "react-router-dom"

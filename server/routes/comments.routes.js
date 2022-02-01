@@ -9,9 +9,6 @@ router
         try {
             const {orderBy, equalTo} = req.query
 
-            console.log(orderBy)
-            console.log(equalTo)
-
             const list = await Comment.find({[orderBy]: equalTo})
 
             res.send(list)
@@ -39,7 +36,7 @@ router.delete("/:commentId", auth, async (req, res) => {
     try {
         const {commentId} = req.params
         const removedComment = await Comment.findById(commentId)
-        if (removedComment.authorId === req.user._id) {
+        if (removedComment.authorId === req.user._id || req.user.isAdmin) {
             await removedComment.remove()
             return res.send(null)
         } else {

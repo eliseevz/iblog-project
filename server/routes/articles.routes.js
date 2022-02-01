@@ -16,13 +16,11 @@ router
         }
     })
     .post(auth, async (req, res) => {
-        console.log(req.user, ' user id')
         try {
             const newArticle = await Article.create({
                 ...req.body,
                 authorId: req.user._id
             })
-            console.log(newArticle, " new article")
             res.status(201).send(newArticle)
         } catch (e) {
             res.status(500).json({
@@ -58,9 +56,6 @@ router.delete("/:articleId", auth, async (req, res) => {
         const {articleId} = req.params
         const removedArticle = await Article.findById(articleId)
 
-        console.log(removedArticle.authorId)
-        console.log(req?.user?._id)
-        console.log(req?.user, " ADMIN INFO")
 
         if (removedArticle.authorId === req?.user?._id || req?.user?.isAdmin) {
             await removedArticle.remove()

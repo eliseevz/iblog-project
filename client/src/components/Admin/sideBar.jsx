@@ -18,7 +18,7 @@ const SideBar = ({data, setData, selected}) => {
             {
                 Object.keys(data).map(tab => {
                     if (data[tab].name === selected.name) {
-                        return <li key={tab.name} className="list-group-item active" aria-current="true">{selected.label}</li>
+                        return <li key={Math.random()} className="list-group-item active" aria-current="true">{selected.label}</li>
                     }
                     return <li onClick={
                         data[tab].action
@@ -28,7 +28,7 @@ const SideBar = ({data, setData, selected}) => {
                        // className={data[tab].color ? `list-group-item text-${data[tab].color}` : `list-group-item`}
                        className={getClasses(data[tab])}
                        role="button"
-                       key={tab.name}
+                       key={Math.random()}
                     >
                         {data[tab].label}
                     </li>

@@ -1,9 +1,7 @@
 import React from 'react';
 import classes from "./articleShort.module.css"
 import moment from "moment"
-import {Link} from "react-router-dom";
 import {useHistory} from "react-router";
-import {useTags} from "../../hooks/useTags";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
 import {addFavorite, getCurrentUser, removeFavorite} from "../../store/users";
@@ -51,7 +49,7 @@ const ArticleShort = ({title, short, date, tags, id, author, isAuthor}) => {
                             {
                                 tags.map(tag => {
                                     const tagData = dispatch(getTagById(tag))
-                                    return (<span key={tagData?.value?._id} className={`${classes.tags} me-3`}>{tagData?.name}</span>)
+                                    return (<span key={Math.random()} className={`${classes.tags} me-3`}>{tagData?.name}</span>)
                                 })
                             }
                         </div>

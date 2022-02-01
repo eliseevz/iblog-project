@@ -3,7 +3,6 @@ import ArticlesInfo from "./articlesInfo";
 import UsersInfo from "./usersInfo";
 import MainInfo from "./mainInfo";
 import SideBar from "./sideBar";
-import AdminMockData from "./adminMockData";
 import {useSelector} from "react-redux";
 import {getUsersList} from "../../store/users";
 import {getArticlesList} from "../../store/articles";
@@ -43,12 +42,6 @@ const AdminPanel = ({logout}) => {
                 label: "Статьи",
                 Component: ArticlesInfo,
                 data: {articlesData}
-            },
-            mocData: {
-                name: "mocData",
-                label: "mocData",
-                Component: AdminMockData,
-                data: {}
             }
         }
 

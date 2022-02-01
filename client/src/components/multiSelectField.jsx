@@ -9,16 +9,11 @@ const MultiSelectField = ({limit = null, onChange, name, className, options, val
         setOptionsList(options)
     }, [options])
 
-    // useEffect(() => {
-    //     console.log(value, ' useeffect value')
-    //     setValueSt(value)
-    // }, [value])
+
 
 
     const handleChange = (target) => {
-        console.log(target, ' target in multiselect')
         if (limit && target.length + 1 > limit){
-            console.log('hello')
             onChange({name: name, value: target})
             setOptionsList([])
         } else {

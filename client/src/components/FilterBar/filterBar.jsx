@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import Select from 'react-select'
+import React from 'react';
 import classes from "./filterBar.module.css"
-import apiTags from "../../api/tags"
 import SelectField from "../selectField";
 import MultiSelectField from "../multiSelectField";
 import TextField from "../textField";
@@ -9,8 +7,6 @@ import {useSelector} from "react-redux";
 import {getTagsList} from "../../store/tags";
 
 const FilterBar = ({sort, setSort}) => {
-
-
 
     const tagsData = useSelector(getTagsList())
     const tags = tagsData.map(tag => ({value: tag, label: tag.name}))
@@ -21,8 +17,6 @@ const FilterBar = ({sort, setSort}) => {
     ]
 
     const handleChange = (target) => {
-        console.log(target, ' this is target')
-        console.log(target.name)
         setSort(prevState => ({...prevState, [target.name]: target.value}))
     }
 

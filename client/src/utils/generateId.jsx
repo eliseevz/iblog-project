@@ -5,6 +5,5 @@ export function generateId(length) {
     while (rs.length < length) {
         rs += abc[Math.floor(Math.random() * abc.length)];
     }
-    console.log(rs);
     return rs
 }

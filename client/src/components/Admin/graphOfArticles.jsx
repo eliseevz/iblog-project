@@ -5,7 +5,6 @@ Chart.register(...registerables);
 Chart.register(CategoryScale)
 
 const GraphArticles = ({articles}) => {
-    console.log(articles, ' articles in graph')
 
     const [config, setConfig] = useState({
         labels: [],
@@ -23,7 +22,6 @@ const GraphArticles = ({articles}) => {
         ]
 
         const nowDate = new Date().getMonth()
-        console.log(months[nowDate])
 
         const resultLabels = []
         const resultCount = []
@@ -37,26 +35,17 @@ const GraphArticles = ({articles}) => {
             }
             resultLabels.push(months[index])
             const articlesCount = articles.filter((article) => {
-                console.log(article)
-                console.log(new Date(article.date).getMonth(), ' DATE')
-                console.log(index)
                 return new Date(article.date).getMonth() === index
             })
-            console.log("______________")
             resultCount.push(articlesCount.length)
         }
 
-        console.log(resultLabels, " resultLabels")
 
         setConfig(prevState => ({data: resultCount.reverse(), labels: resultLabels.reverse(), isReady: true}))
 
-        // console.log(resultLabels, ' res labels');
-        // console.log(resultCount.reverse(), ' res resultCount');
-        // console.log(config, ' conf')
     }
 
     useEffect(() => {
-        console.log(config)
     }, [config])
 
     const options = {
