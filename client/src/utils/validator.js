@@ -5,7 +5,12 @@ export function validator(data, config) {
         let statusValidate
         switch (method) {
             case "isRequired": {
-                statusValidate = data.trim() === ""
+                if (typeof data === "string") {
+                    statusValidate = data.trim() === ""
+                }
+                if (Array.isArray(data)) {
+                    statusValidate = data.length === 0
+                }
                 break
             }
             case "hasNumber": {
@@ -15,6 +20,10 @@ export function validator(data, config) {
             }
             case "min": {
                 statusValidate = data.length < config.value
+                break
+            }
+            case "max": {
+                statusValidate = data.length > config.value
                 break
             }
             case "isEmail": {

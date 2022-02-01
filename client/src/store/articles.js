@@ -78,6 +78,7 @@ export const removeArticleFromList = (id) => async (dispatch, getState) => {
     const state = getState().articles.entities
     const newState = state.filter(a => a._id !== id)
     try {
+        console.log("запрос на удаление")
         await articlesService.delete(id)
     } catch (e) {
         console.log(e)

@@ -8,8 +8,37 @@ import {useDispatch, useSelector} from "react-redux";
 import {addArticle, getCurrentUser, logout, removeArticle} from "../store/users";
 import {addNewArticle, getArticleById, removeArticleFromList, updateArticle} from "../store/articles";
 import {getTagsList} from "../store/tags";
+import {parseArticleContent} from "../utils/parseArticleContent";
+import {validator} from "../utils/validator";
 
 const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
+
+    const validationConfig = {
+        title: {
+            isRequired: {
+                message: "Поле обязательно для ввода"
+            },
+        },
+        short: {
+            isRequired: {
+                message: "Поле обязательно для ввода"
+            },
+        },
+        content: {
+            isRequired: {
+                message: "Поле обязательно для ввода"
+            }
+        },
+        tags: {
+            isRequired: {
+                message: "Поле обязательно для ввода"
+            },
+            max: {
+                value: 2,
+                message: "Максимально - 2 тэга"
+            }
+        }
+    }
 
     const initialState = {
         title: "",
@@ -22,9 +51,9 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
     const [loading, setLoading] = useState(type === "new" ? false : true)
 
     const [data, setData] = useState(initialState)
+    const [errors, setErrors] = useState({})
 
     const tags = useSelector(getTagsList()).map(tag => ({label: tag.name, value: tag}))
-    console.log(tags, ' tags')
     const user = useSelector(getCurrentUser())
     const dispatch = useDispatch()
 
@@ -42,7 +71,7 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
                 ...article,
                 title: article.title,
                 short: article.short,
-                content: article.content.length === 1 ? article.content[0] : article.content.join("\n\n"),
+                content: article.content.length === 1 ? article.content[0].content : parseArticleContent(article.content),
                 tags: article.tags
             })
             setLoading(prevState => !prevState)
@@ -99,14 +128,22 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         e.stopPropagation()
-        const correctContentSplit = data.content.split("\n\n")
-        const correctContent = correctContentSplit.filter(par => par.length !== 0)
+
+        const result = validator(data, validationConfig)
+
+        if (Object.keys(result).length !== 0) {
+            setErrors(result)
+            return
+        }
+
+        const correctContent = transformArticleContent(data.content)
 
         let correctTags = data.tags
         if (typeof data.tags[0] !== "string") {
             correctTags = data.tags.map(tag => tag.value._id)
         }
         if (type === "edit") {
+            console.log("edit")
             const result = dispatch(updateArticle(data._id, {...data, tags: correctTags, content: correctContent}))
             history.push(`/${userNickname}/article/${data._id}`)
         }
@@ -120,6 +157,31 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
             dispatch(addArticle(result.authorId, result._id))
             history.push(`/${userNickname}/article/${result._id}`)
         }
+    }
+
+    function transformArticleContent(content) {
+        console.log(content)
+        const splitedContent = content.trim().split("\n")
+        const newContent = []
+        for (let i = 0; i < splitedContent.length; i++) {
+            if (i !== 0 && splitedContent[i - 1] === "") {
+                if (splitedContent[i] !== "") {
+                    newContent.push({
+                        content: splitedContent[i].trim(),
+                        margin: 2
+                    })
+                }
+            } else {
+                if (splitedContent[i] !== "") {
+                    newContent.push({
+                        content: splitedContent[i].trim(),
+                        margin: 1
+                    })
+                }
+            }
+        }
+
+        return newContent
     }
 
     return (
@@ -147,6 +209,7 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
                             label="Название статьи"
                             styles={{}}
                             className="col-sm-6 mb-3"
+                            error={errors.title}
                         />
                         <TextAreaField
                             value={data.short}
@@ -157,6 +220,7 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
                             rows={3}
                             styles={{}}
                             className="col-sm-6 mb-3"
+                            error={errors.short}
                         />
                         <TextAreaField
                             value={data.content}
@@ -167,6 +231,7 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
                             rows={10}
                             styles={{}}
                             className="col-sm-8 mb-4"
+                            error={errors.content}
                         />
                         <span>Выбрать тэги (максимум 2)</span>
                         <MultiSelectField
@@ -177,6 +242,7 @@ const NewArticle = ({userNickname, type, articleId=null, userId=null}) => {
                             limit={2}
                             // value={data.tags}
                             value={getTags()?.map(tag => tags[tag])}
+                            error={errors.tags}
                         />
                         <div className="buttonsGroup mt-5">
                             <button type="submit" className="btn btn-primary me-3">Сохранить</button>

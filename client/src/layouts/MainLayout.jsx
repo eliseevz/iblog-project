@@ -5,7 +5,7 @@ const MainLayout = ({children}) => {
 
     const {mode} = useTheme()
     return (
-        <div className="mainContent pb-5" style={mode === "day" ? {background: "rgb(225 225 225)", color: "#000"} : {background: "#242D35", color: "#fff"}}>
+        <div className="mainContent pb-5" style={mode === "day" ? {background: "rgb(240 240 240)", color: "#000"} : {background: "#242D35", color: "#fff"}}>
             {children}
         </div>
     );

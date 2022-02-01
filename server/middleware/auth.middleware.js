@@ -1,6 +1,7 @@
 const tokenService = require("../services/token.service")
+const User = require("../models/User")
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     if (req.method === "OPTIONS") {
         return next()
     }
@@ -13,8 +14,13 @@ module.exports = (req, res, next) => {
         }
 
         const data = tokenService.validateAccess(token)
+        const findUser = await User.findById(data._id)
+        console.log(findUser, ' user')
 
-        req.user = data
+        req.user = {
+            ...data,
+            isAdmin: findUser.isAdmin
+        }
 
         next()
 

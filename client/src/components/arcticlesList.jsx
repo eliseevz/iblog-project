@@ -11,10 +11,13 @@ const ArticlesList = ({sortConfig = {}, inArticles, isAuthor}) => {
     const [articles, setArticles] = useState()
     const dispatch = useDispatch()
     const articlesData = useSelector(getArticlesList())
+    console.log(articlesData, ' data')
 
     const [currentPage, setCurrentPage] = useState(1)
 
     const pageSize = 6
+
+    console.log(isAuthor)
 
     useEffect(() => {
         if (!inArticles) {
@@ -73,7 +76,7 @@ const ArticlesList = ({sortConfig = {}, inArticles, isAuthor}) => {
     if (filtering?.length <= pageSize && currentPage > 1) {
         setCurrentPage(1)
     }
-
+    
     return (
         <div className="container mt-4">
             <div className="row">

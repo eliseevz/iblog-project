@@ -19,7 +19,8 @@ router.patch("/:userId", auth, async (req, res) => {
         const data = req.body
         const {userId} = req.params
 
-        if (req.user._id === userId) {
+        if (req.user._id === userId || req.user.isAdmin) {
+            console.log("Я внутри, я админ, я удаляю")
             const userUpdated = await User.findByIdAndUpdate(userId, data, {new: true})
             res.status(201).send(userUpdated)
         } else {

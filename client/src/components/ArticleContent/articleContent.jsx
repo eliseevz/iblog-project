@@ -3,6 +3,7 @@ import classes from "./articleContent.module.css"
 import moment from "moment";
 import {useDispatch} from "react-redux";
 import {getTagById} from "../../store/tags";
+import {parseArticleContent} from "../../utils/parseArticleContent";
 
 const ArticleContent = ({article}) => {
 
@@ -27,7 +28,12 @@ const ArticleContent = ({article}) => {
             <div className={`${classes.content}`}>
                 <div className={`${classes.contentText} text-justify text-left`}>
                     {
-                        article.content.map(item => <div key={item}><p>{item}</p> <br/> </div>)
+                        article.content.map((par, index) => {
+                            if (index === 0) {
+                                return <p className="mt-1 mb-0" key={index}>{par.content}</p>
+                            }
+                            return <p key={index} className={`mt-${par.margin === 1 ? 0 : 5}`}>{par.content} </p>
+                        })
                     }
                 </div>
             </div>

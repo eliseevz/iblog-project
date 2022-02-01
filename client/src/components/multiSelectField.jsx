@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Select from "react-select";
 
-const MultiSelectField = ({limit = null, onChange, name, className, options, value=null }) => {
+const MultiSelectField = ({limit = null, onChange, name, className, options, value=null, error }) => {
 
     const [optionsList, setOptionsList] = useState()
 
@@ -28,19 +28,24 @@ const MultiSelectField = ({limit = null, onChange, name, className, options, val
     }
 
     return (
-        <Select
-            isMulti
-            // defaultValue={[{
-            //     label: "ИТ",
-            //     value: {_id: 'jskwie33', name: 'ИТ'}
-            // }]}
-            defaultValue={value}
-            className={className}
-            // classNamePrefix="select"
-            name={name}
-            options={optionsList}
-            onChange={handleChange}
-        />
+        <>
+            <Select
+                isMulti
+                // defaultValue={[{
+                //     label: "ИТ",
+                //     value: {_id: 'jskwie33', name: 'ИТ'}
+                // }]}
+                defaultValue={value}
+                className={className}
+                // classNamePrefix="select"
+                name={name}
+                options={optionsList}
+                onChange={handleChange}
+            />
+            {
+                error && <span className="text-danger">{error}</span>
+            }
+        </>
     );
 };
 

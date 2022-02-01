@@ -6,7 +6,8 @@ const schema = new Schema({
     },
     authorId: String,
     content: [{
-        type: String
+        content: String,
+        margin: Number
     }],
     short: {
         type: String

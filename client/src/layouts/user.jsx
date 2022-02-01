@@ -9,7 +9,10 @@ const User = ({user, isAuthor = false}) => {
         <div className="mt-4 container">
             <div className="row">
                 <div className="col-sm-3">
-                    <h2 className="text-start">{user.nickname}</h2>
+                    <h2 className="text-start d-flex align-items-center">
+                        <i className="bi bi-person-circle me-3 fs-4"></i>
+                        <span>{user.nickname}</span>
+                    </h2>
                 </div>
             </div>
             {

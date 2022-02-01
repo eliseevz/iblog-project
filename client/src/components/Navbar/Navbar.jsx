@@ -23,12 +23,13 @@ const NavBar = () => {
                     <li className="nav-item d-flex align-items-center me-3">
                         <NavLink activeClassName="active text-danger" className="nav-link text-light" to="/">Все статьи</NavLink>
                     </li>
-                    <li className="nav-item d-flex align-items-center">
+                    {authStatus && <li className="nav-item d-flex align-items-center">
                         <NavLink activeClassName="active text-danger" className="nav-link text-light" to="/favorites">Избранное</NavLink>
                     </li>
+                    }
 
                 </ul>
-                <ul className="nav">
+                <ul className="nav me-5">
                     <li className="nav-item d-flex align-items-center me-5">
                         <Switcher/>
                     </li>

@@ -77,8 +77,16 @@ export const getUserById = (id) => (state) => {
 }
 
 export const getUserByNickname = (nickname) => (state) => {
+    console.log(nickname, ' ник')
      const result = state.users.entities
          .find(user => user.nickname === nickname)
+    return result
+}
+
+export const getUserByNicknameDisp = (nickname) => (dispatch, getState) => {
+    console.log(nickname, ' ник')
+    const result = getState().users.entities
+        .find(user => user.nickname === nickname)
     return result
 }
 
@@ -102,7 +110,10 @@ export const removeArticle = (userId, articleId) => async (dispatch, getState) =
         articles: user.articles.filter(art => art !== articleId) || []
     }
     try {
-        await usersService.update(userId, {articles: data.articles})
+        console.log("Делаем апдейт")
+        console.log("Список:", data.articles)
+        const {content} = await usersService.update(userId, {articles: data.articles})
+        console.log("Обновленный юзер: ", content)
         updateUserData(state, data, dispatch)
     } catch (e) {
         console.log(e.message)
