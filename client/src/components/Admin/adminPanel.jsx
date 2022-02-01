@@ -19,7 +19,7 @@ const AdminPanel = ({logout}) => {
 
     useEffect(() => {
         fetchAllData()
-    }, [articles, users])
+    }, [])
 
     const fetchAllData = async () => {
         const articlesData = articles
@@ -49,12 +49,6 @@ const AdminPanel = ({logout}) => {
                 label: "mocData",
                 Component: AdminMockData,
                 data: {}
-            },
-            logout: {
-                name: "exit",
-                label: "Выйти",
-                action: logout,
-                color: "danger",
             }
         }
 

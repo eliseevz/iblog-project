@@ -59,6 +59,11 @@ body {
   padding-left: 10px;
 }
 
+.commentFormLight {
+  background-color: #ffffff;
+  color: #000;
+}
+
 .commentForm:focus {
   outline: none;
 }
@@ -66,6 +71,12 @@ body {
 .commentElement {
   background: #4b5c69;
   color: #fff;
+  position: relative;
+}
+
+.commentElementLight {
+  background: #fff;
+  color: #000;
   position: relative;
 }
 

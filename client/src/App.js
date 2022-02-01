@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from "./components/Footer/footer";
 import {ThemeProvider} from "./hooks/useTheme";
 import MainLayout from "./layouts/MainLayout";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 function App() {
 
@@ -26,8 +27,9 @@ function App() {
                 <Route path="/:author/article/:id" exact component={Article}/>
                 <Route path="/articleform/:type/:id?" component={ArticleForm}/>
                 <Route path="/auth/:type?" component={AuthPage}/>
-                <Route path="/favorites" component={FavoritePage}/>
-                <Route path="/admin" exact component={AdminPage}/>
+                {/*<Route path="/favorites" component={FavoritePage}/>*/}
+                <ProtectedRoute path="/favorites" component={FavoritePage} />
+                <ProtectedRoute path="/admin" exact component={AdminPage} />
                 <Route path="/:author" exact component={AuthorPage}/>
                 <Route path="/" exact component={Main}/>
                 <Redirect to="/" />

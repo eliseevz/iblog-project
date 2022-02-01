@@ -51,13 +51,13 @@ const ArticleShort = ({title, short, date, tags, id, author, isAuthor}) => {
                             {
                                 tags.map(tag => {
                                     const tagData = dispatch(getTagById(tag))
-                                    return (<span key={tagData?.value?._id} className={`${classes.tags} me-3`}>{tagData?.label}</span>)
+                                    return (<span key={tagData?.value?._id} className={`${classes.tags} me-3`}>{tagData?.name}</span>)
                                 })
                             }
                         </div>
                         <div className={`${classes.date}`}>
                             {
-                                moment(Number(date)).format('ll')
+                                moment(date).format('ll')
                             }
                         </div>
                     </div>

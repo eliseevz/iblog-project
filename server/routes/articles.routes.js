@@ -60,8 +60,9 @@ router.delete("/:articleId", auth, async (req, res) => {
 
         console.log(removedArticle.authorId)
         console.log(req?.user?._id)
+        console.log(req?.user, " ADMIN INFO")
 
-        if (removedArticle.authorId === req?.user?._id) {
+        if (removedArticle.authorId === req?.user?._id || req?.user?.isAdmin) {
             await removedArticle.remove()
             return res.send(null)
         } else {
