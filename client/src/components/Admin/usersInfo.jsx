@@ -66,9 +66,6 @@ const UsersInfo = ({usersData}) => {
                                     </Link>
                                 </span>
                                 articles: {user.articles ? user.articles.length : 0}
-                                <button onClick={() => handleDelete(user.nickname)} className="btn fs-4">
-                                    <i className="bi bi-x text-danger"></i>
-                                </button>
                             </li>
                         )
                     })
