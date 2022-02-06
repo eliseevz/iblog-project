@@ -11,7 +11,7 @@ COPY client /app/client
 RUN npm run build
 
 
-FROM node:alpine:3.7
+FROM node:14
 
 WORKDIR /app
 
